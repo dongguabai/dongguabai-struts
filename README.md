@@ -1,1 +1,1 @@
-111
+[多模式 Web 应用开发记录<二>自己动手写一个 Struts](https://mp.weixin.qq.com/s?__biz=MzU1OTgyMDc3Mg==&mid=2247485749&idx=1&sn=0c07474cf571fa2d428a8adb22148609&chksm=fc1033becb67baa8fd2c3749d10a3e610d3e99724824fcfe97fbeed238a9cf22bf0168cfc89a&token=1275092718&lang=zh_CN#rd)
