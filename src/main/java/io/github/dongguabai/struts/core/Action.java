@@ -1,5 +1,7 @@
 package io.github.dongguabai.struts.core;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.util.Map;
 
 /**
@@ -9,7 +11,5 @@ import java.util.Map;
  */
 public interface Action {
 
-    View execute();
-
-    void setParameters(Map<String, String> parameters);
+    String execute(HttpServletRequest request, HttpServletResponse response);
 }

@@ -1,12 +1,10 @@
 package io.github.dongguabai.struts;
 
-import io.github.dongguabai.struts.core.DispatcherServlet;
+import io.github.dongguabai.struts.core.ActionServlet;
 import org.apache.catalina.Context;
 import org.apache.catalina.LifecycleException;
-import org.apache.catalina.WebResourceRoot;
 import org.apache.catalina.startup.Tomcat;
-import org.apache.catalina.webresources.DirResourceSet;
-import org.apache.catalina.webresources.StandardRoot;
+import org.apache.jasper.servlet.JspServlet;
 
 import java.io.File;
 
@@ -20,14 +18,12 @@ public class StartUp {
         Tomcat tomcat = new Tomcat();
         tomcat.setPort(Integer.getInteger("port", 8080));
         tomcat.getConnector();
-
-        // 创建一个上下文
-        Context context = tomcat.addContext("", null);
-
-        // 将Servlet添加到上下文中
-        Tomcat.addServlet(context, "dispatcherServlet", new DispatcherServlet());
+        String webappDirLocation = "target/classes/";
+        Context context = tomcat.addWebapp("", new File(webappDirLocation).getAbsolutePath());
+        Tomcat.addServlet(context, "jsp", new JspServlet());
+        context.addServletMappingDecoded("*.jsp", "jsp");
+        Tomcat.addServlet(context, "dispatcherServlet", new ActionServlet());
         context.addServletMappingDecoded("/*", "dispatcherServlet");
-
         tomcat.start();
         tomcat.getServer().await();
     }

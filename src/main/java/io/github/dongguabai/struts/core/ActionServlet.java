@@ -15,37 +15,29 @@ import java.util.Map;
  * @author dongguabai
  * @date 2024-02-28 12:05
  */
-public class DispatcherServlet extends HttpServlet {
+public class ActionServlet extends HttpServlet {
 
-    private ActionMapping mapping;
-
-    private ActionInvoker invoker;
+    private Map<String, Action> actions = new HashMap<>();
 
     @Override
     public void init() throws ServletException {
-        mapping = new ActionMapping();
-        mapping.addMapping("/hello", HelloWorldAction.class);
-        invoker = new ActionInvoker(mapping);
+        //读取配置或者扫描上下问都行
+        actions.put("/hello", new HelloWorldAction());
     }
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        process(req, resp);
-    }
-
-    @Override
-    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        process(req, resp);
-    }
-
-    private void process(HttpServletRequest req, HttpServletResponse resp) {
-        String url = req.getServletPath();
-        Map<String, String> parameters = new HashMap<>();
-        Enumeration<String> parameterNames = req.getParameterNames();
-        while (parameterNames.hasMoreElements()) {
-            String name = parameterNames.nextElement();
-            parameters.put(name, req.getParameter(name));
+        String actionPath = req.getPathInfo();
+        if (actionPath.endsWith(".jsp")) {
+            req.getServletContext().getNamedDispatcher("jsp").forward(req, resp);
+        } else {
+            Action action = actions.get(actionPath);
+            if (action != null) {
+                String view = action.execute(req, resp);
+                req.getRequestDispatcher(view).forward(req, resp);
+            } else {
+                resp.sendError(HttpServletResponse.SC_NOT_FOUND);
+            }
         }
-        invoker.invoke(url, parameters, req, resp);
     }
 }
