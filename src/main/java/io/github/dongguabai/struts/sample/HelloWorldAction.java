@@ -12,9 +12,20 @@ import java.util.Map;
  */
 public class HelloWorldAction implements Action {
 
+    private String message;
+
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) {
-        request.setAttribute("message", "Hello, World!");
+        //将前端的参数反转专递给前端
+        request.setAttribute("message", new StringBuilder(message).reverse().toString());
         return "/hello.jsp";
+    }
+
+    public String getMessage() {
+        return message;
+    }
+
+    public void setMessage(String message) {
+        this.message = message;
     }
 }
