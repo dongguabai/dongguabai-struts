@@ -1,5 +1,7 @@
 package io.github.dongguabai.struts.core;
 
+import java.util.Map;
+
 /**
  * @author Dongguabai
  * @description
@@ -7,5 +9,7 @@ package io.github.dongguabai.struts.core;
  */
 public interface Action {
 
-    String execute();
+    View execute();
+
+    void setParameters(Map<String, String> parameters);
 }
