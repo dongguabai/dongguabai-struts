@@ -1,6 +1,6 @@
 package io.github.dongguabai.struts.core;
 
-import io.github.dongguabai.struts.sample.HelloAction;
+import io.github.dongguabai.struts.sample.HelloWorldAction;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -24,7 +24,7 @@ public class DispatcherServlet extends HttpServlet {
     @Override
     public void init() throws ServletException {
         mapping = new ActionMapping();
-        mapping.addMapping("/hello", HelloAction.class);
+        mapping.addMapping("/hello", HelloWorldAction.class);
         invoker = new ActionInvoker(mapping);
     }
 
